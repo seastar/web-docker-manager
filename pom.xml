@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.github.seastar.wdb-docker-manager</groupId>
+    <artifactId>wdm-parent</artifactId>
+    <version>0.0.0-alpha</version>
+    <packaging>pom</packaging>
+    <modules>
+        <module>wdm-server</module>
+    </modules>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.0.0</version>
+    </parent>
+
+</project>

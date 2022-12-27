@@ -1,0 +1,7 @@
+go 1.19
+
+use (
+	wdm-agent
+	wdm-gocore
+	wdm-proxy
+)
