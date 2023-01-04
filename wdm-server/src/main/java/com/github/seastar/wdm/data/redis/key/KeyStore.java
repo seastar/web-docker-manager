@@ -5,6 +5,6 @@ package com.github.seastar.wdm.data.redis.key;
  * Author: hchery
  * home: https://github.com/hchery
  */
-public interface KeyStore<T> {
+public interface KeyStore {
     String strAs();
 }

@@ -7,7 +7,7 @@ import org.springframework.lang.NonNull;
  * Author: hchery
  * home: https://github.com/hchery
  */
-public record StrKeyStore(@NonNull String str) implements KeyStore<String> {
+public record StrKeyStore(@NonNull String str) implements KeyStore {
     @Override
     public String strAs() {
         return str;

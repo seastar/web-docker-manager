@@ -1,6 +1,7 @@
 package com.github.seastar.wdm.filter.registrar;
 
 import com.github.seastar.wdm.filter.FilterOrder;
+import com.github.seastar.wdm.filter.WdmHttpFilter;
 import jakarta.servlet.Filter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 
@@ -9,7 +10,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
  * Author: hchery
  * home: https://github.com/hchery
  */
-public abstract class BaseWebFilterRegistrar<T extends Filter> extends FilterRegistrationBean<T> {
+public abstract class BaseWebFilterRegistrar<T extends WdmHttpFilter> extends FilterRegistrationBean<T> {
 
     public abstract String name();
     public abstract FilterOrder order();

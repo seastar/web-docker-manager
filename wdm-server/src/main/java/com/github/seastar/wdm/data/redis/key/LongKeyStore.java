@@ -7,7 +7,7 @@ import org.springframework.lang.NonNull;
  * Author: hchery
  * home: https://github.com/hchery
  */
-public record LongKeyStore(@NonNull Long id) implements KeyStore<Long> {
+public record LongKeyStore(@NonNull Long id) implements KeyStore {
     @Override
     public String strAs() {
         return id.toString();

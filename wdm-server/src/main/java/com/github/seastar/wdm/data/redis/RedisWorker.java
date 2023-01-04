@@ -1,5 +1,8 @@
 package com.github.seastar.wdm.data.redis;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.experimental.Accessors;
 import org.springframework.data.redis.core.RedisTemplate;
 
 /**
@@ -7,7 +10,11 @@ import org.springframework.data.redis.core.RedisTemplate;
  * Author: hchery
  * home: https://github.com/hchery
  */
-public interface RedisWorker<V> {
-    RedisTemplate<String, V> holdTemplate();
-    String group();
+@AllArgsConstructor
+@Getter
+@Accessors(fluent = true)
+public abstract class RedisWorker<V> {
+
+    private final RedisTemplate<String, V> holdTemplate;
+    private final String group;
 }
