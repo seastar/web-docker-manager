@@ -7,25 +7,25 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
 /**********************************
- * Date: 2022/12/29
+ * Date: 2023/1/7
  * Author: hchery
  * Home: https://github.com/hchery
  *********************************/
 @Component
 @Slf4j
-public class WdmLogoutSuccessHandler extends BaseHandler implements LogoutSuccessHandler {
+public class WdmAuthenticationSuccessHandler extends BaseHandler implements AuthenticationSuccessHandler {
 
     @Override
-    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException, ServletException {
         var user = (User) (authentication.getPrincipal());
-        log.info("LogoutHandle success[id={}, account={}, nickname={}]",
+        log.info("AuthenticationHandler success[id={}, account={}, nickname={}]",
                 user.getId(),
                 user.getAccount(),
                 user.getNickname()

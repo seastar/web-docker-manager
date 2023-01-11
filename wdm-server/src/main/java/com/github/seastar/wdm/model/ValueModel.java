@@ -1,12 +1,9 @@
 package com.github.seastar.wdm.model;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import java.io.Serial;
 import java.util.Date;
@@ -20,14 +17,21 @@ import java.util.Date;
 @ToString(callSuper = true)
 @Data
 @MappedSuperclass
-public abstract class ValueModel extends IDModel {
+public abstract class ValueModel extends BaseModel {
     @Serial
     private static final long serialVersionUID = 7135973041087397523L;
 
-    @Column(nullable = false)
-    @CreatedDate
-    private Date createTime;
-    @Column(nullable = false)
-    @LastModifiedDate
-    private Date updateTime;
+    @jakarta.persistence.Column(
+            name = "create_at",
+            nullable = false,
+            columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
+    )
+    private Date createAt;
+
+    @jakarta.persistence.Column(
+            name = "update_at",
+            nullable = false,
+            columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+    )
+    private Date updateAt;
 }

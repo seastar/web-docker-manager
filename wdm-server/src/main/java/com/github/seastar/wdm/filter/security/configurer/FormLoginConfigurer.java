@@ -12,6 +12,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +30,12 @@ public class FormLoginConfigurer extends WdmHttpFilter implements Configurer {
     @Resource
     private CaptchaService captchaService;
 
+    @Resource
+    private AuthenticationSuccessHandler authenticationSuccessHandler;
+
+    @Resource
+    private AuthenticationFailureHandler authenticationFailureHandler;
+
     @Override
     public HttpSecurity next(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.formLogin(c -> {
@@ -35,6 +43,8 @@ public class FormLoginConfigurer extends WdmHttpFilter implements Configurer {
             c.loginProcessingUrl(Paths.ApiAuthLogin);
             c.usernameParameter(Params.Account);
             c.passwordParameter(Params.Password);
+            c.successHandler(authenticationSuccessHandler);
+            c.failureHandler(authenticationFailureHandler);
         }).addFilterBefore(this, UsernamePasswordAuthenticationFilter.class);
     }
 

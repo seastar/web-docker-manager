@@ -1,18 +1,11 @@
 package org.hibernate.cfg;
 
-/**********************************
- * Date: 2023/1/3
- * Author: hchery
- * Home: https://github.com/hchery
- *********************************/
-
-import java.util.*;
-
+import jakarta.persistence.*;
 import org.hibernate.AnnotationException;
-import org.hibernate.annotations.Type;
 import org.hibernate.annotations.JavaType;
 import org.hibernate.annotations.ManyToAny;
 import org.hibernate.annotations.Target;
+import org.hibernate.annotations.Type;
 import org.hibernate.annotations.common.reflection.XClass;
 import org.hibernate.annotations.common.reflection.XProperty;
 import org.hibernate.boot.jaxb.Origin;
@@ -21,23 +14,16 @@ import org.hibernate.cfg.annotations.HCANNHelper;
 import org.hibernate.internal.CoreMessageLogger;
 import org.hibernate.internal.util.StringHelper;
 import org.hibernate.internal.util.collections.CollectionHelper;
-
 import org.jboss.logging.Logger;
 
-import jakarta.persistence.Access;
-import jakarta.persistence.Basic;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Transient;
+import java.util.*;
 
-/**
- * A helper class to keep the {@code XProperty}s of a class ordered by access type.
- *
- * @author Hardy Ferentschik
- */
-class PropertyContainer {
+/**********************************
+ * Date: 2023/1/11
+ * Author: hchery
+ * Home: https://github.com/hchery
+ *********************************/
+public class PropertyContainer {
 
     private static final CoreMessageLogger LOG = Logger.getMessageLogger(CoreMessageLogger.class, PropertyContainer.class.getName());
 
@@ -197,8 +183,8 @@ class PropertyContainer {
                     throw new org.hibernate.boot.MappingException(
                             LOG.ambiguousPropertyMethods(
                                     xClass.getName(),
-                                    HCANNHelper.annotatedElementSignature(previous),
-                                    HCANNHelper.annotatedElementSignature(getter)
+                                    HCANNHelper.annotatedElementSignature( previous ),
+                                    HCANNHelper.annotatedElementSignature( getter )
                             ),
                             new Origin( SourceType.ANNOTATION, xClass.getName() )
                     );
@@ -243,6 +229,83 @@ class PropertyContainer {
         }
         return CollectionHelper.toSmallList( output );
     }
+//
+//	private void considerExplicitFieldAndPropertyAccess() {
+//		for ( XProperty property : fieldAccessMap.values() ) {
+//			Access access = property.getAnnotation( Access.class );
+//			if ( access == null ) {
+//				continue;
+//			}
+//
+//			// see "2.3.2 Explicit Access Type" of JPA 2 spec
+//			// the access type for this property is explicitly set to AccessType.FIELD, hence we have to
+//			// use field access for this property even if the default access type for the class is AccessType.PROPERTY
+//			AccessType accessType = AccessType.getAccessStrategy( access.value() );
+//            if (accessType == AccessType.FIELD) {
+//				propertyAccessMap.put(property.getName(), property);
+//			}
+//            else {
+//				LOG.debug( "Placing @Access(AccessType.FIELD) on a field does not have any effect." );
+//			}
+//		}
+//
+//		for ( XProperty property : propertyAccessMap.values() ) {
+//			Access access = property.getAnnotation( Access.class );
+//			if ( access == null ) {
+//				continue;
+//			}
+//
+//			AccessType accessType = AccessType.getAccessStrategy( access.value() );
+//
+//			// see "2.3.2 Explicit Access Type" of JPA 2 spec
+//			// the access type for this property is explicitly set to AccessType.PROPERTY, hence we have to
+//			// return use method access even if the default class access type is AccessType.FIELD
+//            if (accessType == AccessType.PROPERTY) {
+//				fieldAccessMap.put(property.getName(), property);
+//			}
+//            else {
+//				LOG.debug( "Placing @Access(AccessType.PROPERTY) on a field does not have any effect." );
+//			}
+//		}
+//	}
+
+//	/**
+//	 * Retrieves all properties from the {@code xClass} with the specified access type. This method does not take
+//	 * any jpa access rules/annotations into account yet.
+//	 *
+//	 * @param access The access type - {@code AccessType.FIELD}  or {@code AccessType.Property}
+//	 *
+//	 * @return A maps of the properties with the given access type keyed against their property name
+//	 */
+//	private TreeMap<String, XProperty> initProperties(AccessType access) {
+//		if ( !( AccessType.PROPERTY.equals( access ) || AccessType.FIELD.equals( access ) ) ) {
+//			throw new IllegalArgumentException( "Access type has to be AccessType.FIELD or AccessType.Property" );
+//		}
+//
+//		//order so that property are used in the same order when binding native query
+//		TreeMap<String, XProperty> propertiesMap = new TreeMap<String, XProperty>();
+//		List<XProperty> properties = xClass.getDeclaredProperties( access.getType() );
+//		for ( XProperty property : properties ) {
+//			if ( mustBeSkipped( property ) ) {
+//				continue;
+//			}
+//			// HHH-10242 detect registration of the same property twice eg boolean isId() + UUID getId()
+//			XProperty oldProperty = propertiesMap.get( property.getName() );
+//			if ( oldProperty != null ) {
+//				throw new org.hibernate.boot.MappingException(
+//						LOG.ambiguousPropertyMethods(
+//								xClass.getName(),
+//								HCANNHelper.annotatedElementSignature( oldProperty ),
+//								HCANNHelper.annotatedElementSignature( property )
+//						),
+//						new Origin( SourceType.ANNOTATION, xClass.getName() )
+//				);
+//			}
+//
+//			propertiesMap.put( property.getName(), property );
+//		}
+//		return propertiesMap;
+//	}
 
     private AccessType determineLocalClassDefinedAccessStrategy() {
         AccessType classDefinedAccessType = AccessType.DEFAULT;

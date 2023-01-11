@@ -4,7 +4,6 @@ import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.io.Serial;
 import java.util.Date;
@@ -18,10 +17,16 @@ import java.util.Date;
 @ToString(callSuper = true)
 @Data
 @MappedSuperclass
-public abstract class RecordModel extends IDModel {
+public abstract class RecordModel extends BaseModel {
     @Serial
     private static final long serialVersionUID = -5913691219962633165L;
 
-    @CreatedDate
-    private Date recordTime;
+    @jakarta.persistence.Column(
+            name = "record_at",
+            nullable = false,
+            insertable = false,
+            updatable = false,
+            columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
+    )
+    private Date recordAt;
 }
